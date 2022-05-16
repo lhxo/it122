@@ -1,0 +1,10 @@
+<link rel="stylesheet" href="/css/main.css"/>
+<h2>Home</h2>
+<hr/>
+<h3>Sandwiches</h3>
+<% console.log(sandwiches) %>
+
+
+<% sandwiches.forEach(function(sandwich) { %>
+    <li><a href="/detail?name=<%= sandwich.name %>"><%= sandwich.name %></li>
+<% });
