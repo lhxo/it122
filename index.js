@@ -3,7 +3,7 @@ import {parse} from 'querystring';
 import path from 'path';
 import express from 'express';
 
-import {getAll, getItem} from './data.js'
+import {getAll, getItem, addItem, deleteItem} from './data.js'
 
 const app = express();
 app.set('port', process.env.PORT || 3000); // sets our port
@@ -25,7 +25,7 @@ app.set('view engine', 'ejs'); // set the view engine to ejs
    app.get('/detail', (req,res)=>{
     let result = getItem(req.query.name);
     res.render('detail', {name: req.query.name, result: result});
-    console.log(req.query);
+    //console.log(req.query);
    })
    
    // define 404 handler
