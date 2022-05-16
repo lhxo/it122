@@ -7,17 +7,17 @@ const sandwiches = [
 ];
 
 export const getAll = () => {
+    //Week 2
     // let string = JSON.stringify((sandwiches), null, 5)
     return sandwiches
 }
 
-export const getItem = (query) => {
-    return JSON.stringify(sandwiches.filter((sandwich)=>{
-        return sandwich["name"] == query;
-    }))
-}
-
-export const sandObj = () => {
-    let obj = {...sandwiches}
-    return obj
+export const getItem = (name) => {
+    //Week 2
+    // return JSON.stringify(sandwiches.filter((sandwich)=>{
+    //     return sandwich["name"] == query;
+    // }))
+    return sandwiches.find((sandwich) => {
+        return sandwich.name === name;
+    });
 }
