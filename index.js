@@ -1,39 +1,41 @@
 import http from 'http';
-import url from 'url';
+import {parse} from 'querystring';
+import path from 'path';
+import express from 'express';
 
-const PORT = 3000;
-import {getAll, getItem} from './data.js'
+import {getAll, getItem, sandObj} from './data.js'
 
-const server = http.createServer((req,res)=>{
-    const path = req.url.toLowerCase();
-    const queryObject = url.parse(req.url, true).query;
-    switch(path) {
-        case '/':
-            res.writeHead(200, {'Content-Type': 'text/plain'});
-            res.write(getAll())
-            res.end();
-            break;
-        case '/about':
-            res.writeHead(200, {'Content-Type': 'text/plain'});
-            res.write("Hello my name is Christopher")
-            res.end();
-            break;
-        case `/detail`:
-            res.writeHead(200, {'Content-Type': 'text/plain'});
-            res.write(getItem("Ruben"))
-            res.end();
-            break;
-        default:
-            res.writeHead(404, {'Content-Type': 'text/plain'});
-            res.end('Not found');
-            break;
-    }
-})
+const app = express();
+app.set('port', process.env.PORT || 3000); // sets our port
+app.use(express.static('./public')); // set location for static files
+app.use(express.urlencoded()); // pars url-encoded bodies
+app.set('view engine', 'ejs'); // set the view engine to ejs
+    // send content of 'home' view to browser
+    app.get('/', (req,res) => {
+    let sandwiches = sandObj()
+    res.render('home', sandwiches);
+    });
+   
+   // send plain text response
+   app.get('/about', (req,res) => {
+    res.type('text/plain');
+    res.send('About page');
+   });
 
-server.listen(PORT, (error)=>{
-    if(error){
-        console.log('Something went wrong.')
-    } else {
-        console.log(`Server is listening on port ${PORT}`)
-    }
+   //detail query string
+   app.get('/detail', (req,res)=>{
+       res.type('text/html');
+       res.render('detail')
+       res.end()
+   })
+   
+   // define 404 handler
+   app.use((req,res) => {
+    res.type('text/plain');
+    res.status(404);
+    res.send('404 - Not found');
+   });
+
+app.listen(app.get('port'), ()=>{
+    console.log('Express Started')
 })
