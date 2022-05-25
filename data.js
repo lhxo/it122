@@ -1,6 +1,3 @@
-import req from "express/lib/request.js";
-import res from "express/lib/response.js";
-
 const sandwiches = [
     {name:"Reuben", vessel:"Rye",protein:["Corned Beef"],veggie:["Sauerkrout"],dairy:["Swiss"],sauce:["Thousand Island"]},
     {name:"Cheese Burger",vessel:"Brioche",protein:["Beef Patty"],veggie:["Lettuce","Tomato","Red Onion"],dairy:["American"],sauce:["Ketchup","Mayo"]},
@@ -22,19 +19,18 @@ export const getItem = (name) => {
     //     return sandwich["name"] == query;
     // }))
     return sandwiches.find((sandwich) => {
-        return sandwich.name === name;
+        return sandwich.name.toLowerCase() === name.toLowerCase();
     });
 }
 
-export const addItem = (addSandwich) => {
-    sandwiches.push(addSandwich);
-    return sandwiches.get((name) => {
-        return addSandwich.name === name;
-    });    
+export const addItem = (name, vessel, protein, veggie, dairy, sauce) => {
+    if(name == undefined || vessel == undefined || protein == undefined || veggie == undefined || dairy == undefined || sauce == undefined) {
+        return false;
+    }
+    sandwich.push({name, vessel, protein, veggie, dairy, sauce})
 }
-
 export const deleteItem = (name) => {
-    sandwiches.remove((sandwich) => {
-        return sandwich.name !== name;
-    });
+    sandwiches.remove((sandwich)=>{
+        return sandwich.name !== name
+    })
 };    
